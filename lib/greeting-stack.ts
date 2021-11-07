@@ -1,5 +1,6 @@
 import * as cdk from '@aws-cdk/core';
-import { Code, Runtime } from '@aws-cdk/aws-lambda';
+import * as apigateway from '@aws-cdk/aws-apigateway';
+import { Code, IFunction, Runtime } from '@aws-cdk/aws-lambda';
 import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { Duration } from '@aws-cdk/core';
 
@@ -11,11 +12,18 @@ export class GreetingStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: AppProps) {
     super(scope, id, props);
     
-    const name = 'greeting-lambda'
+    const name = 'greeting'
 
-    let role = this.createRole(name);
-
-    this.createLambda(name, props, role);
+    const role = this.createRole(name);
+    const lambda = this.createLambda(name, props, role);
+    this.createApi(name,lambda,props);
+  }
+  createApi(name: string, lambda: IFunction, props: AppProps) {
+    new apigateway.LambdaRestApi(this,'myapi',{
+      handler:lambda,
+      restApiName: `${name}-api`,
+      description:'Greeting API Endpoint'
+    })
   }
 
   createRole(name:string) {
@@ -33,13 +41,11 @@ export class GreetingStack extends cdk.Stack {
   }
 
   private createLambda(name:string,props: AppProps, lambdaRole: Role) {
-
-
-    new LambdaBuilder()
+    return new LambdaBuilder()
       .scope(this)
-      .name(name) // name of the stack
+      .name(`${name}-lambda`) // name of the stack
       .description(`Generated on: ${new Date().toISOString()}`)
-      .functionName(name)
+      .functionName(`${name}-lambda`)
       .runtime(Runtime.PYTHON_3_8)
       .handler('lambda_function.lambda_handler')
       .memorySize(128)
