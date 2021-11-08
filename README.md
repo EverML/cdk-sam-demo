@@ -2,6 +2,9 @@
 
 This is an example project for TypeScript development with CDK integrating local testing with the sam cli
 
+![Diagram](/img/cdk+sam.png)
+
+
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Useful commands
