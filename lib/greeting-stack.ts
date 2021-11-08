@@ -50,7 +50,7 @@ export class GreetingStack extends cdk.Stack {
       .handler('lambda_function.lambda_handler')
       .memorySize(128)
       .timeout(Duration.minutes(1))
-      .code(Code.fromAsset('resources/lambda/greeting_generator'))
+      .code(Code.fromAsset('resources/lambda/functions/greeting_generator'))
       .environment({ ENVIRONMENT: props.stage })
       .role(lambdaRole)
       .build();
