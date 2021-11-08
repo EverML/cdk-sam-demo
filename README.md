@@ -1,6 +1,6 @@
-# Welcome to your CDK TypeScript project!
+# CDK + SAM = <3 !
 
-This is a blank project for TypeScript development with CDK.
+This is an example project for TypeScript development with CDK integrating local testing with the sam cli
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
